@@ -48,8 +48,20 @@ The `hat.py` script handles most of the ClearML bits. This script initialize the
 6. On Line 60, the training parameters from the `.yaml` file will be converted in a list (e.g. `['--data_path', './data/Images', '--epochs', '10', '--img_size', '640', '640', '--model_name', 'some_model']`). This list can then be passed to the `train_aip.py` script, in Line 62. 
 
 ## 6. Commit changes to Github
-yeah, commit. otherwise it doesn't work. i honestly don't know why
+yeah, commit your changes. otherwise it doesn't work sometimes. i honestly don't know why
 
-## 6. Cloning & Re-running experiments
+## 7. Run Experiment!
+* Local execution, local file path: `python hat.py --train_yaml config.yaml --task_name local`
+* Local execution, s3 file path: `python hat.py --train_yaml config.yaml --task_name local_s3 --s3`
+* Remote execution, s3 file path: `python hat.py --train_yaml config.yaml --task_name local_s3 --s3 --remote`
+
+## 8. Cloning & Re-running experiments
+On ClearML, you can repeat the experiments with minor tweaks to the parameter if the experiment is executed remotely. 
+1) On the experiment page, right click on a complete task, then click on Clone
+2) Give the task a name, then proceed to clone. 
+3) The cloned experiment will be in the Draft state. Click on the task, and under the Configuration tab, you can edit the hyperparameters. (Note: The hyperparameters to be amended is under `train_args` **NOT** `Args`. The hyperparameters under `Args` are the defaults)
+4) Once done, right click on the draft task and enqueue it onto one of the queues.
+
 
 ## Quirks to be fixed:
+* To remove the default hyperparameters shown under `Args`
