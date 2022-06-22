@@ -1,0 +1,7 @@
+augment: false
+data_path: data/Images
+epochs: 3
+img_size:
+- 640
+- 640
+model_name: some_model

@@ -1,0 +1,5 @@
+# Append the following packages to your existing requirements.txt, if they do not already exist
+boto3==1.21.44
+clearml==1.4.1
+PyYAML==6.0
+tqdm==4.64.0
