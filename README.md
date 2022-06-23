@@ -21,11 +21,12 @@ Kinda like just putting a hat over your train script
     * Comment out `torch` and `torchvision` if you intend to use the PyTorch docker image (recommended) for remote execution. The PyTorch docker image already has these packages installed for you. If you intend to execute locally, and use ClearML solely for tracking purpose, then you may leave these two dependencies in.
 
 ## 2. Convert `train.py` argparse arguments to a `.yaml` file
-Instead of typing a long list of args each time you run a new experiment, it is a good practice to store your experiment parameters as a `.yaml` file. This step will generate a `.yaml` file based on the default parameters from your `train.py`.  
+Instead of typing a long list of args each time you run a new experiment, it is a good practice to store your experiment parameters as a `.yaml` file. This step will generate a `.yaml` file based on the default parameters from youtrair `train.py`.  
 * From your original `train.py` script, copy the `add_argument()` lines over to `argparse_to_yaml.py` and replace line 8-12. 
 * Execute `python argparse_to_yaml.py` to generate a default `config.yaml`. 
 
 ## 3. Modification to `train.py` script
+![Modify Train Script](/readme_img/train_aip_ori_compare.png "Modification")
 * Firstly, define a new function `main(args=None)` in your `train.py` (Refer to line 10 in `train_aip.py`).
 * Next, copy everything in the main routine of `train.py` into `main()` function (Refer to line 11-23 in `train_aip.py`).
 * Add `args` as the parameter for `parser.parse_args()` (Refer to line 17 in `train_aip.py`)
