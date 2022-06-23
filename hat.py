@@ -5,6 +5,7 @@ import argparse
 from clearml import Task, Dataset
 
 PROJECT_NAME = 'hat'
+S3_LINK = ''
 
 def config_to_list(train_args):
     args_list = []
@@ -59,4 +60,10 @@ if __name__ == '__main__':
     import train_aip
     args_list = config_to_list(train_params)
     print(args_list)
-    train_aip.main(args_list)
+    model_path = train_aip.main(args_list)
+
+    # if args.s3:
+    #     # dataset = Dataset.create(dataset_name='model', dataset_project = 'datasets/hat')
+    #     # dataset.add_files(model_path)
+    #     # dataset.upload(output_url=S3_LINK)
+    #     # dataset.finalize()

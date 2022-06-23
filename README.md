@@ -29,7 +29,8 @@ Instead of typing a long list of args each time you run a new experiment, it is 
 * Firstly, define a new function `main(args=None)` in your `train.py` (Refer to line 10 in `train_aip.py`).
 * Next, copy everything in the main routine of `train.py` into `main()` function (Refer to line 11-23 in `train_aip.py`).
 * Add `args` as the parameter for `parser.parse_args()` (Refer to line 17 in `train_aip.py`)
-* Lastly, replace the main routine with `main()` function call (Refer to line 26 in `train_aip.py`)
+* Typically, after training, you'd have a `torch.save(model_state, path)` statement. Return the path of the folder containing the saved model(s), so that the `hat.py` can later upload it to S3. (Refer to line 24 in `train_aip.py`) 
+* Lastly, replace the main routine with `main()` function call (Refer to line 27 in `train_aip.py`)
 
 You may compare `train_ori.py` and `train_aip.py` to see the changes applied. Despite the amendments, `train_aip.py` can still be executed in the same manner as `train_ori.py` (e.g. `python train_aip.py --epochs 2`)
 
@@ -41,11 +42,13 @@ You may compare `train_ori.py` and `train_aip.py` to see the changes applied. De
 ## 5. Putting on the ClearML Hat
 The `hat.py` script handles most of the ClearML bits. This script initialize the ClearML task, setup for remote execution, and retrieves data from s3. 
 1. On Line 7, change the `PROJECT_NAME`. 
-2. On Line 46, change the base docker image, if necessary. You may also add other docker setup scripts here using the `docker_setup_bash_script` parameter. Refer to [ClearML Task Documentation](https://clear.ml/docs/latest/docs/references/sdk/task/#set_base_docker) for more details 
-3. On Line 47, indicate your queue name, if necessary. 
-4. On Line 52, modify the `dataset_name` to your respective dataset. The `get_local_copy()` method downloads and cache the data, then returns the path of the cache folder. This is why the dataset path needs to be overwritten on Line 54. 
-5. On Line 59, the `train_aip.py` script will then be imported. This is because in the case of remote execution, prior to Line 46-47, all other Python packages would not have been ready, thus, importing the `train_aip.py` at the top of the script will yield error. (Shearman say one) 
-6. On Line 60, the training parameters from the `.yaml` file will be converted in a list (e.g. `['--data_path', './data/Images', '--epochs', '10', '--img_size', '640', '640', '--model_name', 'some_model']`). This list can then be passed to the `train_aip.py` script, in Line 62. 
+2. On Line 8, include your s3 bucket link
+3. On Line 47, change the base docker image, if necessary. You may also add other docker setup scripts here using the `docker_setup_bash_script` parameter. Refer to [ClearML Task Documentation](https://clear.ml/docs/latest/docs/references/sdk/task/#set_base_docker) for more details 
+4. On Line 48, indicate your queue name, if necessary. 
+5. On Line 53, modify the `dataset_name` to your respective dataset. The `get_local_copy()` method downloads and cache the data, then returns the path of the cache folder. This is why the dataset path needs to be overwritten on Line 55. 
+6. On Line 60, the `train_aip.py` script will then be imported. This is because in the case of remote execution, prior to Line 47-48, all other Python packages would not have been ready, thus, importing the `train_aip.py` at the top of the script will yield error. (Shearman say one) 
+7. On Line 61, the training parameters from the `.yaml` file will be converted in a list (e.g. `['--data_path', './data/Images', '--epochs', '10', '--img_size', '640', '640', '--model_name', 'some_model']`). This list can then be passed to the `train_aip.py` script, in Line 63. 
+8. On Line 66, create a new dataset for the trained model for uploading of the trained model to S3. 
 
 ## 6. Commit changes to Github
 yeah, commit your changes. otherwise it doesn't work sometimes. i honestly don't know why
