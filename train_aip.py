@@ -21,7 +21,7 @@ def main(args=None):
         train()
     im = Image.open(opt.data_path+'cat1.jpg')
     im.show()
-    return '/path/to/model.pt'
+    return '/path/to/weights/folder/'
 
 if __name__ == '__main__':
     main()

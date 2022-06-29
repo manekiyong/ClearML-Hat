@@ -30,7 +30,7 @@ Instead of typing a long list of args each time you run a new experiment, it is 
 * Firstly, define a new function `main(args=None)` in your `train.py` (Refer to line 10 in `train_aip.py`).
 * Next, copy everything in the main routine of `train.py` into `main()` function (Refer to line 11-23 in `train_aip.py`).
 * Add `args` as the parameter for `parser.parse_args()` (Refer to line 17 in `train_aip.py`)
-* Typically, after training, you'd have a `torch.save(model_state, path)` statement. Return the path of the folder containing the saved model(s), so that the `hat.py` can later upload it to S3. (Refer to line 24 in `train_aip.py`) 
+* Typically, after training, you'd have a `torch.save(model_state, path)` statement. Return the path of the folder containing the saved model(s), so that the `hat.py` can later upload it to S3. (Refer to line 24 in `train_aip.py`).
 * Lastly, replace the main routine with `main()` function call (Refer to line 27 in `train_aip.py`)
 
 You may compare `train_ori.py` and `train_aip.py` to see the changes applied. Despite the amendments, `train_aip.py` can still be executed in the same manner as `train_ori.py` (e.g. `python train_aip.py --epochs 2`)
@@ -49,7 +49,7 @@ The `hat.py` script handles most of the ClearML bits. This script initialize the
 5. On Line 53, modify the `dataset_name` to your respective dataset. The `get_local_copy()` method downloads and cache the data, then returns the path of the cache folder. This is why the dataset path needs to be overwritten on Line 55. 
 6. On Line 60, the `train_aip.py` script will then be imported. This is because in the case of remote execution, prior to Line 47-48, all other Python packages would not have been ready, thus, importing the `train_aip.py` at the top of the script will yield error. (Shearman say one) 
 7. On Line 61, the training parameters from the `.yaml` file will be converted in a list (e.g. `['--data_path', './data/Images', '--epochs', '10', '--img_size', '640', '640', '--model_name', 'some_model']`). This list can then be passed to the `train_aip.py` script, in Line 63. 
-8. On Line 66, create a new dataset for the trained model for uploading of the trained model to S3. 
+8. On Line 66, create a new dataset for the trained model for uploading of the trained models to S3. 
 
 ## 6. Commit changes to Github
 yeah, commit your changes. otherwise it doesn't work sometimes. i honestly don't know why
